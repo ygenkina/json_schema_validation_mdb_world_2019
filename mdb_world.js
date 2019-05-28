@@ -1,8 +1,8 @@
-ex0 = function() {
+ex0a = function() {
   return db.getCollectionInfos({name:"orders"});
 };
 
-createCollection = function() {
+ex0b = function() {
   return db.createCollection("orders");
 };
 
@@ -91,7 +91,7 @@ ex5 = function() {
   });
 };
 
-ex6 = function() {
+ex6a = function() {
   return db.orders.insertOne({
     _id: 77348,
     item: "Cheap Clown Nose",
@@ -100,6 +100,17 @@ ex6 = function() {
     colour: "red"
   });
 };
+
+ex6b = function() {
+  return db.orders.insertOne({
+    _id: 77348,
+    item: "Cheap Clown Nose",
+    price: NumberDecimal("5.5"),
+    quantity: NumberInt("1"),
+    color: "red"
+  });
+};
+
 
 ex7 = function() {
   return db.runCommand({
