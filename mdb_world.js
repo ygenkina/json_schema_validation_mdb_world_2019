@@ -2,16 +2,37 @@ ex0 = function() {
   return db.getCollectionInfos({name:"orders"});
 };
 
+createCollection = function() {
+  return db.createCollection("orders");
+};
+
 ex1 = function() {
-  return db.createCollection("orders", {
+  return db.runCommand({
+    collMod: "orders",
     validator: {
-      item: { $type: "string" },
-      price: { $type: "decimal" },
-      quantity: { $type: "int" },
-      color: { $in: ["red", "green", "blue"] }
+      $jsonSchema: {
+        bsonType: "object",
+        properties: {
+          _id: {},
+          item: {
+            bsonType: "string"
+          },
+          price: {
+            bsonType: "decimal"
+          },
+          color: {
+            bsonType: "string"
+          },
+          quantity: {
+            bsonType: ["int", "long"]
+          }
+        },
+        required: ["item", "price", "quantity"],
+      }
     }
   });
 };
+
 
 ex2 = function() {
   return db.orders.insertOne({
@@ -40,35 +61,9 @@ ex4 = function() {
   );
 };
 
+
+
 ex5 = function() {
-  return db.runCommand({
-    collMod: "orders",
-    validator: {
-      $jsonSchema: {
-        bsonType: "object",
-        properties: {
-          _id: {},
-          item: {
-            bsonType: "string"
-          },
-          price: {
-            bsonType: "decimal"
-          },
-          color: {
-            bsonType: "string"
-          },
-          quantity: {
-            bsonType: ["int", "long"]
-          }
-        },
-        required: ["item", "price", "quantity"],
-      }
-    }
-  });
-};
-
-
-ex6 = function() {
   return db.runCommand({
     collMod: "orders",
     validator: {
@@ -96,6 +91,15 @@ ex6 = function() {
   });
 };
 
+ex6 = function() {
+  return db.orders.insertOne({
+    _id: 77348,
+    item: "Cheap Clown Nose",
+    price: NumberDecimal("5.5"),
+    quantity: NumberInt("1"),
+    colour: "red"
+  });
+};
 
 ex7 = function() {
   return db.runCommand({
