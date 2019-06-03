@@ -1,12 +1,46 @@
-ex0a = function() {
+ex0 = function() {
   return db.getCollectionInfos({name:"orders"});
 };
 
-ex0b = function() {
-  return db.createCollection("orders");
+ex1 = function() {
+  return db.createCollection("orders", {
+    validator: {
+      item: { $type: "string" },
+      price: { $type: "decimal" },
+      quantity: { $type: "int" },
+      color: { $in: ["red", "green", "blue"] }
+    }
+  });
 };
 
-ex1 = function() {
+ex2 = function() {
+  return db.orders.insertOne({
+    _id: 77345,
+    item: "Magical Clown Nose",
+    price: "15.5",
+    quantity: NumberInt("1"),
+    color: "red"
+  });
+};
+
+ex3 = function() {
+  return db.orders.insertOne({
+    _id: 77346,
+    item: "Magical Clown Nose",
+    price: NumberDecimal("15.5"),
+    quantity: NumberInt("1"),
+    color: "red"
+  });
+};
+
+ex4 = function() {
+  return db.orders.updateOne(
+    {_id: 77346},
+    {$set: {"colour": "green"}}
+  );
+};
+
+ex5a = function() {
   return db.runCommand({
     collMod: "orders",
     validator: {
@@ -33,37 +67,26 @@ ex1 = function() {
   });
 };
 
-
-ex2 = function() {
+ex5b = function() {
   return db.orders.insertOne({
-    _id: 77345,
-    item: "Expensive Clown Nose",
-    price: "15.5",
+    _id: 77349,
+    item: "Unicycle",
+    price: NumberDecimal("50.5"),
     quantity: NumberInt("1"),
-    color: "red"
+    color: "green"
   });
 };
 
-ex3 = function() {
-  return db.orders.insertOne({
-    _id: 77346,
-    item: "Expensive Clown Nose",
-    price: NumberDecimal("15.5"),
-    quantity: NumberInt("1"),
-    color: "red"
-  });
-};
-
-ex4 = function() {
+ex5c = function() {
   return db.orders.updateOne(
-    {_id: 77346},
-    {$set: {"colour": "green"}}
+    {_id: 77349},
+    {$set: {"colour": "blue"}}
   );
 };
 
 
 
-ex5 = function() {
+ex6 = function() {
   return db.runCommand({
     collMod: "orders",
     validator: {
@@ -94,7 +117,7 @@ ex5 = function() {
 ex6a = function() {
   return db.orders.insertOne({
     _id: 77348,
-    item: "Cheap Clown Nose",
+    item: "Juggling Ball",
     price: NumberDecimal("5.5"),
     quantity: NumberInt("1"),
     colour: "red"
@@ -104,7 +127,7 @@ ex6a = function() {
 ex6b = function() {
   return db.orders.insertOne({
     _id: 77348,
-    item: "Cheap Clown Nose",
+    item: "Juggling Ball",
     price: NumberDecimal("5.5"),
     quantity: NumberInt("1"),
     color: "red"
